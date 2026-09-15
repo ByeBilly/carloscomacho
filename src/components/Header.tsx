@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, X, Phone, Globe } from 'lucide-react';
+import { Menu, X, Phone, Globe, Youtube } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Header() {
@@ -31,6 +31,13 @@ export default function Header() {
           </nav>
 
           <div className="hidden md:flex items-center space-x-6">
+            <a
+              href="/myyoutube"
+              className="flex items-center text-neutral-600 text-sm font-medium hover:text-neutral-900 transition-colors"
+            >
+              <Youtube className="w-4 h-4 mr-2" />
+              YouTube
+            </a>
             <button
               onClick={toggleLanguage}
               className="flex items-center text-neutral-600 text-sm font-medium hover:text-neutral-900 transition-colors"
@@ -78,6 +85,14 @@ export default function Header() {
                 {label}
               </a>
             ))}
+            <a
+              href="/myyoutube"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center px-3 py-2.5 text-base font-medium text-neutral-700 hover:text-neutral-900 hover:bg-neutral-50 rounded-lg transition-colors"
+            >
+              <Youtube className="w-4 h-4 mr-2" />
+              YouTube
+            </a>
             <div className="pt-3 border-t border-neutral-100">
               <a
                 href="#intake"

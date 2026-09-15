@@ -31,7 +31,7 @@ const videos = [
   {
     id: '8CDEtPh1osA',
     title: 'Francis Bacon Pt 2',
-    desc: 'Philosophy meets psychology — exploring the raw emotional power of Francis Bacon's art.',
+    desc: "Philosophy meets psychology — exploring the raw emotional power of Francis Bacon's art.",
   },
 ];
 

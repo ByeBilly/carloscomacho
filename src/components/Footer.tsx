@@ -24,9 +24,7 @@ export default function Footer() {
                 {t('footer.podcast')}
               </a>
               <a
-                href="https://www.youtube.com/@carloscamachopsychologist4800"
-                target="_blank"
-                rel="noreferrer"
+                href="/myyoutube"
                 className="flex items-center gap-2 text-sm hover:text-white transition-colors"
               >
                 <Youtube className="w-3.5 h-3.5 flex-shrink-0" />

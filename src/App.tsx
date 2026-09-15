@@ -11,6 +11,7 @@ import IntakeForm from './components/IntakeForm';
 import Footer from './components/Footer';
 import AHPRACompliance from './components/AHPRACompliance';
 import PrivateUniverse from './components/PrivateUniverse';
+import YouTubeChannel from './components/YouTubeChannel';
 import { LanguageProvider } from './contexts/LanguageContext';
 
 export default function App() {
@@ -34,6 +35,10 @@ export default function App() {
 
   if (currentPath === '/privateuniverse') {
     return <PrivateUniverse />;
+  }
+
+  if (currentPath === '/myyoutube') {
+    return <YouTubeChannel />;
   }
 
   if (currentHash === '#compliance') {

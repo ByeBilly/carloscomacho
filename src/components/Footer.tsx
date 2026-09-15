@@ -1,4 +1,4 @@
-import { Phone, ExternalLink } from 'lucide-react';
+import { Phone, ExternalLink, Youtube } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function Footer() {
@@ -17,13 +17,20 @@ export default function Footer() {
             <div className="mt-6 pt-6 border-t border-neutral-800 space-y-1.5">
               <p className="text-xs font-semibold tracking-widest text-neutral-500 uppercase mb-3">{t('footer.explore')}</p>
               <a
-                href="https://carloscamacho.libsyn.com/"
-                target="_blank"
-                rel="noreferrer"
+                href="/privateuniverse"
                 className="flex items-center gap-2 text-sm hover:text-white transition-colors"
               >
                 <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
                 {t('footer.podcast')}
+              </a>
+              <a
+                href="https://www.youtube.com/@carloscamachopsychologist4800"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2 text-sm hover:text-white transition-colors"
+              >
+                <Youtube className="w-3.5 h-3.5 flex-shrink-0" />
+                YouTube
               </a>
               <a
                 href="https://www.amazon.com.au/stores/author/B078GJ9YF1/about"

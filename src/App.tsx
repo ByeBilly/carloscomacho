@@ -10,20 +10,31 @@ import PatientResources from './components/PatientResources';
 import IntakeForm from './components/IntakeForm';
 import Footer from './components/Footer';
 import AHPRACompliance from './components/AHPRACompliance';
+import PrivateUniverse from './components/PrivateUniverse';
 import { LanguageProvider } from './contexts/LanguageContext';
 
 export default function App() {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const [currentHash, setCurrentHash] = useState(window.location.hash);
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleChange = () => {
+      setCurrentPath(window.location.pathname);
       setCurrentHash(window.location.hash);
       window.scrollTo(0, 0);
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleChange);
+    window.addEventListener('popstate', handleChange);
+    return () => {
+      window.removeEventListener('hashchange', handleChange);
+      window.removeEventListener('popstate', handleChange);
+    };
   }, []);
+
+  if (currentPath === '/privateuniverse') {
+    return <PrivateUniverse />;
+  }
 
   if (currentHash === '#compliance') {
     return (

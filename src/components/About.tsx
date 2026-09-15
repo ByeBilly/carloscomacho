@@ -71,9 +71,7 @@ export default function About() {
                   <h3 className="text-lg font-medium text-neutral-900">{t('about.radio.title')}</h3>
                   <p className="mt-2 text-base text-neutral-600">{t('about.radio.desc')}</p>
                   <a
-                    href="https://carloscamacho.libsyn.com/"
-                    target="_blank"
-                    rel="noreferrer"
+                    href="/privateuniverse"
                     className="inline-flex items-center mt-3 text-sm font-medium text-neutral-900 hover:text-neutral-600 transition-colors"
                   >
                     {t('about.listen')}

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://carloscomacho.com/sitemap.xml
+Sitemap: https://iamcarloscamacho.com/sitemap.xml

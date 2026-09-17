@@ -5,7 +5,7 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-neutral-900 text-neutral-400 py-12" id="contact">
+    <footer className="bg-neutral-900 text-neutral-400 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-24">
 

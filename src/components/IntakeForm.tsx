@@ -68,7 +68,7 @@ export default function IntakeForm() {
           </div>
 
           <form onSubmit={handleSubmit} className="bg-white p-8 md:p-10 rounded-2xl border border-neutral-200 shadow-sm space-y-8">
-            <input type="hidden" name="_subject" value="New Patient Enquiry — carloscomacho.com" />
+            <input type="hidden" name="_subject" value="New Patient Enquiry — iamcarloscamacho.com" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>

@@ -53,7 +53,7 @@ export default function PrivateUniverse() {
           className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-300 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          carloscomacho.com
+          iamcarloscamacho.com
         </a>
       </div>
 
@@ -267,7 +267,7 @@ export default function PrivateUniverse() {
                 className="inline-flex items-center gap-2 text-sm font-medium text-neutral-400 hover:text-white transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
-                Back to carloscomacho.com
+                Back to iamcarloscamacho.com
               </a>
             </div>
           </motion.div>

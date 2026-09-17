@@ -8,6 +8,7 @@ import About from './components/About';
 import Locations from './components/Locations';
 import PatientResources from './components/PatientResources';
 import IntakeForm from './components/IntakeForm';
+import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
 import AHPRACompliance from './components/AHPRACompliance';
 import PrivateUniverse from './components/PrivateUniverse';
@@ -63,6 +64,7 @@ export default function App() {
           <Locations />
           <PatientResources />
           <IntakeForm />
+          <ContactForm />
         </main>
 
         <Footer />

@@ -43,7 +43,11 @@ export default function YouTubeChannel() {
     };
   }, []);
 
-  const [featured, ...rest] = videos;
+  const requestedId = new URLSearchParams(window.location.search).get('v');
+  const orderedVideos = requestedId && videos.some(v => v.id === requestedId)
+    ? [videos.find(v => v.id === requestedId)!, ...videos.filter(v => v.id !== requestedId)]
+    : videos;
+  const [featured, ...rest] = orderedVideos;
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white selection:text-neutral-900">

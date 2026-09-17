@@ -98,7 +98,7 @@ export default function Footer() {
           <p>&copy; {new Date().getFullYear()} Carlos Camacho. {t('footer.rights')}</p>
           <div className="flex space-x-6">
             <a href="#compliance" className="hover:text-white transition-colors">AHPRA Compliance</a>
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a>
           </div>
         </div>
       </div>

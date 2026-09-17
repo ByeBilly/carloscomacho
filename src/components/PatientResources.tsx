@@ -1,7 +1,17 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { FileText, Download, Mail, CheckCircle2, ShieldCheck, X } from 'lucide-react';
+import { FileText, Download, Mail, CheckCircle2, ShieldCheck, X, Youtube } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+
+// Only topics with a confirmed matching video on Carlos's channel get a
+// direct deep link (?v=<id>); the rest link to the channel page itself
+// rather than guessing at a video that doesn't exist.
+const videoLinks: Record<string, string> = {
+  depression: '/myyoutube?v=rYePLfu_LrA',
+  anxiety: '/myyoutube',
+  resilience: '/myyoutube',
+  workcover: '/myyoutube',
+};
 
 export default function PatientResources() {
   const { t } = useLanguage();
@@ -64,7 +74,14 @@ export default function PatientResources() {
                   </p>
                 </div>
               </div>
-              <div className="mt-auto pt-6 border-t border-neutral-200 flex justify-end">
+              <div className="mt-auto pt-6 border-t border-neutral-200 flex flex-wrap items-center justify-end gap-x-6 gap-y-2">
+                <a
+                  href={videoLinks[resource.id]}
+                  className="inline-flex items-center text-sm font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
+                >
+                  <Youtube className="w-4 h-4 mr-2" />
+                  {t('res.btn.watch')}
+                </a>
                 <button
                   onClick={() => setSelectedResource(resource.title)}
                   className="inline-flex items-center text-sm font-medium text-neutral-900 hover:text-neutral-600 transition-colors"

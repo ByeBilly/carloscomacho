@@ -1,27 +1,28 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { CheckCircle2, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, ShieldCheck, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
-// Replace 'REPLACE_WITH_FORM_ID' with your Formspree form ID from https://formspree.io
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_FORM_ID';
+const FORMSUBMIT_EMAIL = 'carloscamachoemail@gmail.com';
+const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${FORMSUBMIT_EMAIL}`;
 
 export default function IntakeForm() {
   const { t } = useLanguage();
-  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormState('submitting');
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      const res = await fetch(FORMSUBMIT_ENDPOINT, {
         method: 'POST',
-        body: new FormData(e.currentTarget),
         headers: { Accept: 'application/json' },
+        body: new FormData(e.currentTarget),
       });
-      setFormState(res.ok ? 'success' : 'idle');
+      if (!res.ok) throw new Error('FormSubmit request failed');
+      setFormState('success');
     } catch {
-      setFormState('idle');
+      setFormState('error');
     }
   };
 
@@ -67,8 +68,26 @@ export default function IntakeForm() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-white p-8 md:p-10 rounded-2xl border border-neutral-200 shadow-sm space-y-8">
+          <form
+            onSubmit={handleSubmit}
+            action={FORMSUBMIT_ENDPOINT}
+            method="POST"
+            noValidate
+            className="bg-white p-8 md:p-10 rounded-2xl border border-neutral-200 shadow-sm space-y-8"
+          >
+            {/* Honeypot — hidden from real visitors, catches bots that fill every field */}
+            <input
+              type="text"
+              name="_honey"
+              style={{ display: 'none' }}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+            />
+
             <input type="hidden" name="_subject" value="New Patient Enquiry — iamcarloscamacho.com" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -129,6 +148,13 @@ export default function IntakeForm() {
                 {t('intake.emergency')}
               </label>
             </div>
+
+            {formState === 'error' && (
+              <div role="alert" className="flex items-start gap-2 text-sm text-red-700 bg-red-50 border border-red-100 rounded-xl p-4">
+                <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                <span>Something went wrong sending your enquiry. Please try again, or call us directly.</span>
+              </div>
+            )}
 
             <button
               type="submit"

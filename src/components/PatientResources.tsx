@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { FileText, Download, Mail, CheckCircle2, ShieldCheck, X, Youtube } from 'lucide-react';
+import { FileText, Download, Mail, CheckCircle2, ShieldCheck, X, Youtube, AlertCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 // Only topics with a confirmed matching video on Carlos's channel get a
@@ -13,10 +13,13 @@ const videoLinks: Record<string, string> = {
   workcover: '/myyoutube',
 };
 
+const FORMSUBMIT_EMAIL = 'carloscamachoemail@gmail.com';
+const FORMSUBMIT_ENDPOINT = `https://formsubmit.co/ajax/${FORMSUBMIT_EMAIL}`;
+
 export default function PatientResources() {
   const { t } = useLanguage();
   const [selectedResource, setSelectedResource] = useState<string | null>(null);
-  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   const resources = [
     { id: 'anxiety', title: t('res.item1.title'), desc: t('res.item1.desc') },
@@ -25,13 +28,20 @@ export default function PatientResources() {
     { id: 'workcover', title: t('res.item4.title'), desc: t('res.item4.desc') },
   ];
 
-  const handleRequest = (e: React.FormEvent) => {
+  const handleRequest = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormState('submitting');
-    // Simulate secure API submission/email dispatch
-    setTimeout(() => {
+    try {
+      const res = await fetch(FORMSUBMIT_ENDPOINT, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(e.currentTarget),
+      });
+      if (!res.ok) throw new Error('FormSubmit request failed');
       setFormState('success');
-    }, 1500);
+    } catch {
+      setFormState('error');
+    }
   };
 
   const closeModal = () => {
@@ -147,7 +157,28 @@ export default function PatientResources() {
                       {t('res.modal.desc')} <br/><strong className="text-neutral-900">{selectedResource}</strong>.
                     </p>
 
-                    <form onSubmit={handleRequest} className="space-y-6">
+                    <form
+                      onSubmit={handleRequest}
+                      action={FORMSUBMIT_ENDPOINT}
+                      method="POST"
+                      noValidate
+                      className="space-y-6"
+                    >
+                      {/* Honeypot — hidden from real visitors, catches bots that fill every field */}
+                      <input
+                        type="text"
+                        name="_honey"
+                        style={{ display: 'none' }}
+                        tabIndex={-1}
+                        autoComplete="off"
+                        aria-hidden="true"
+                      />
+
+                      <input type="hidden" name="_subject" value={`Fact Sheet Request: ${selectedResource} — iamcarloscamacho.com`} />
+                      <input type="hidden" name="requestedResource" value={selectedResource ?? ''} />
+                      <input type="hidden" name="_captcha" value="false" />
+                      <input type="hidden" name="_template" value="table" />
+
                       <div>
                         <label htmlFor="res-email" className="block text-sm font-medium text-neutral-900 mb-2">
                           {t('res.modal.email')} *
@@ -156,17 +187,25 @@ export default function PatientResources() {
                           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                             <Mail className="h-5 w-5 text-neutral-400" />
                           </div>
-                          <input 
-                            required 
-                            type="email" 
-                            id="res-email" 
-                            className="w-full pl-11 pr-4 py-3 rounded-xl border border-neutral-200 focus:ring-2 focus:ring-neutral-900 focus:border-neutral-900 outline-none transition-shadow" 
+                          <input
+                            required
+                            type="email"
+                            id="res-email"
+                            name="email"
+                            className="w-full pl-11 pr-4 py-3 rounded-xl border border-neutral-200 focus:ring-2 focus:ring-neutral-900 focus:border-neutral-900 outline-none transition-shadow"
                             placeholder="hello@example.com"
                           />
                         </div>
                       </div>
 
-                      <button 
+                      {formState === 'error' && (
+                        <div role="alert" className="flex items-start gap-2 text-sm text-red-700 bg-red-50 border border-red-100 rounded-xl p-4">
+                          <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                          <span>Something went wrong sending this request. Please try again, or call us directly.</span>
+                        </div>
+                      )}
+
+                      <button
                         type="submit" 
                         disabled={formState === 'submitting'}
                         className="w-full flex items-center justify-center px-6 py-3.5 border border-transparent text-base font-medium rounded-xl text-white bg-neutral-900 hover:bg-neutral-800 focus:ring-2 focus:ring-offset-2 focus:ring-neutral-900 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
